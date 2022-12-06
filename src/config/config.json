@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password":"thi822001@",
+    "database": "user_db",
+    "post" :"3306",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password":"thi822001@",
+    "database": "database_test",
+    "post" :"3306",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password":"thi822001@",
+    "database": "database_production",
+    "post" :"3306",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
