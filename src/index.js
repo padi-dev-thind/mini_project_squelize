@@ -11,7 +11,7 @@ const port = 3000
 const checkconnect = require('./config/db.js').checkconnect
 checkconnect()
 
-//middleware
+//body middleware
 app.use(
     express.urlencoded({
         extended: true,
@@ -24,9 +24,8 @@ app.use(express.static(path.join(__dirname, '/public')));
 //method override
 app.use(methodOverride('_method'));
 
-const handlebars = create({});
-
 //view engine (handlebars templete)
+const handlebars = create({});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, '/resource/views'));

@@ -23,4 +23,3 @@ router.get('/', userManagementController.manageUser)
 
 
 module.exports = router
-

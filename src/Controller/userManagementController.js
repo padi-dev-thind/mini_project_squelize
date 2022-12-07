@@ -37,7 +37,6 @@ class userManagementController{
             res.redirect('back')
           })
           .catch((err)=>console.log(err))
-        
     }
 
     //update user's infor
@@ -108,16 +107,9 @@ class userManagementController{
                     }, 
              paranoid: false,
              raw:true
-        })
-        
-        
-        res.render('softDeletedUserPage', {softDeletedUser: softDeletedUser})
-        
-        
+        })   
+        res.render('softDeletedUserPage', {softDeletedUser: softDeletedUser})      
     }
-
-
-
 }
 
 module.exports = new userManagementController()
