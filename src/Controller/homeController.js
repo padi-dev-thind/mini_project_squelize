@@ -5,7 +5,7 @@ const User = require('../models/user')(sequelize, DataTypes)
 
 class homeController{
     show(req,res,next){
-        res.send('home page')
+        res.render('homePage')
     }
 }
 

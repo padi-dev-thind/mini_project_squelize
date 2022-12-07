@@ -79,7 +79,7 @@ class userManagementController{
 
     //restore user 
     //path /restore-user/:slug
-    async hardDeleteUser(req,res,next){
+    async restoreUser(req,res,next){
         const id = req.params.slug
         await User.restore({
             where: {
@@ -87,6 +87,20 @@ class userManagementController{
             }
         });
     }
+
+    //soft-deleted user list 
+    //path /soft-deleted-user
+    async softDeletedUserList(req,res,next){
+        const id = req.params.slug
+        const deletedUser = await User.findAll({
+            where: {
+            deletaAT: {
+                [Op.not]: null,
+            }
+            }
+        });
+    }
+
 }
 
 module.exports = new userManagementController()
