@@ -1,6 +1,3 @@
-<a href="/user-management/add-user"><button type="button" class="btn btn-primary">Add a new user</button></a>
-<a href="/user-management/deleted-users"><button type="button" class="btn btn-primary">deleted users</button></a>
-
 
 <table class="table table-success table-striped">
   <thead>
@@ -10,19 +7,21 @@
       <th scope="col">fist name</th>
       <th scope="col">last name</th>
       <th scope="col">email</th>
+      <th scope="col">deletedAt</th>
       <th scope="col"></th>
     </tr>
   </thead>
   <tbody >
-    {{#each users}}
+    {{#each softDeletedUser}}
         <tr>
         <th scope="row">{{@index}}</th>
         <td>{{this.id}}</td>
         <td>{{this.firstName}}</td>
         <td>{{this.lastName}}</td>
         <td>{{this.email}}</td>
+        <td>{{this.deletedAt}}</td>
         <td>
-            <a href="/user-management/edit-user/{{this.id}}" class="botton-primary" > Update </a>
+            <a href="/user-management/restore-user/{{this.id}}" class="botton-primary" > Restore </a>
             <a class="botton-primary"  data-bs-toggle="modal" data-bs-target="#delete-confirm" data-id='{{this.id}}' > Delete </a>
         </td>
     {{/each}}
@@ -40,7 +39,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Delete the this User ?
+        Delete completely this User ?
       </div>
       <div class="modal-footer">
         <button type="button" id="delete-button" class="btn btn-primary"> Delete</button>
@@ -56,6 +55,7 @@
 
 <script>
     const deletConfirm = document.getElementById('delete-confirm')
+    const restoreButton = document.getElementById('restoreButton')
     deletConfirm.addEventListener('show.bs.modal', event => {
 
       const button = event.relatedTarget
@@ -66,7 +66,7 @@
       var delForm = document.forms['delete-form']
 
       delButton.onclick = function(){
-        delForm.action = '/user-management/delete-user/' + id +'?_method=DELETE'
+        delForm.action = '/user-management/hard-delete-user/' + id +'?_method=DELETE'
         delForm.submit()
       }
 

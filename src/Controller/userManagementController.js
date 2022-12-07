@@ -1,105 +1,122 @@
-const {Sequelize, DataTypes, where} = require('sequelize');
+const {Sequelize, DataTypes, where, Op} = require('sequelize');
 const user = require('../models/user');
 const sequelize = require('../config/db').sequelize;
 const User = require('../models/user')(sequelize, DataTypes)
 
 class userManagementController{
-    show(req,res,next){
-        res.send('user mannagement page')
-    }
-    
+    //show index page
     //path /user-management
     async manageUser(req,res,next){
         const users = await User.findAll({ raw : true})
         res.render('userManagementPage',{users: users})
     }
 
+    //show add new user page
+    //path /user-management/add-user-page
+    async showAddUserPage(req,res,next){
+        res.render('addNewUserPage')
+    }
+
+    //show update user page
+    //path /user-management/add-user-page
+    async showEditUserPage(req,res,next){
+        const user = await User.findByPk(req.params.id,{raw: true})
+        if(user != null)
+            res.render('editUserPage',{user: user})
+    }
+
     //create new user
     //path /create-user
     async creatUser(req,res,next){
-        const firstName = req.body.firstName
-        const lastName = req.body.lastName
-        const email = req.body.eamil
-        const rawPassword = req.body.password
-
-        const user = await User.create({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: rawPassword,
-            createdAt: new Date(),
-            updatedAt: new Date()
-          });
+        const newUser = req.body
+        console.log(req.body)
+        const user = await User.create(
+            req.body
+          )
+          .then((user)=>{
+            res.redirect('back')
+          })
+          .catch((err)=>console.log(err))
+        
     }
 
     //update user's infor
     //path /update-user/:id
     async updateUser(req,res,next){
-        const firstName = req.body.firstName
-        const lastName = req.body.lastName
-        const email = req.body.eamil
-        const rawPassword = req.body.password
-
-        await User.update({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: rawPassword,
-            createdAt: new Date(),
-            updatedAt: new Date()
-          },
+        await User.update(
+            req.body
+          ,
           {where: {
-            id: req.id,
+            id: req.params.id,
           }
-        });
+        })
+        .then(async (user)=>{
+            const userList = await User.findAll({raw:true})
+            res.redirect('/user-management')
+        })
     }
 
     //soft delete
     //path /delete-user/:slug
     async deleteUser(req,res,next){
-        const id = req.params.slug
+        const id = req.params.id
         await User.destroy({
             where: {
             id: id
             }
-        });
+        })
+        .then((user)=>{
+            res.redirect('/user-management')
+        })
     }
 
     //hard delete
     //path /hard-delete-user/:slug
     async hardDeleteUser(req,res,next){
-        const id = req.params.slug
+        const id = req.params.id
         await User.destroy({
             where: {
             id: id
             }
             , force: true
-        });
+        }).then((user)=>{
+            res.redirect('/user-management')
+        })
     }
 
     //restore user 
     //path /restore-user/:slug
     async restoreUser(req,res,next){
-        const id = req.params.slug
+        const id = req.params.id
         await User.restore({
             where: {
             id: id
             }
-        });
+        }).then((user)=>{
+            res.redirect('/user-management')
+        })
     }
 
     //soft-deleted user list 
     //path /soft-deleted-user
-    async softDeletedUserList(req,res,next){
-        const id = req.params.slug
-        const deletedUser = await User.findAll({
-            where: {
-            deletaAT: {
-                [Op.not]: null,
-            }
-            }
-        });
+    async showDeletedUser(req,res,next){
+        const softDeletedUser = await User.findAll({
+             where: {
+                deletedAt:
+                    {
+                        [Op.not]: null}
+                    }, 
+             paranoid: false,
+             raw:true
+        })
+        
+        
+        res.render('softDeletedUserPage', {softDeletedUser: softDeletedUser})
+        
+        
     }
+
+
 
 }
 

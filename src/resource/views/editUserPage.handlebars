@@ -1,0 +1,30 @@
+<div class='container'>
+    <h2>Update user</h2>
+    <form method='post' action='/user-management/update-user/{{user.id}}?_method=PUT'>
+        <div class='mt-4'>
+            <div class='mb-3'>
+                <label class='form-label'>first Name</label>
+                <input type='text' class='form-control' name='firstName' value='{{user.firstName}}'/>
+            </div>
+            <div class='mb-3'>
+                <label
+                    for='formGroupExampleInput2'
+                    class='form-label'
+                >last Name</label>
+                <input type='text' class='form-control' name='lastName' value='{{user.lastName}}'/>
+            </div>
+            <div class='mb-3'>
+                <label
+                    for='formGroupExampleInput2'
+                    class='form-label'
+                >email</label>
+                <input type='text' class='form-control' name='email' value='{{user.email}}' />
+            </div>
+            <div class='mb-3'>
+                <label class='form-label'>Password</label>
+                <input type='text' class='form-control' name='password' value='{{user.password}}'/>
+            </div>
+            <input type='submit' />
+        </div>
+    </form>
+</div>

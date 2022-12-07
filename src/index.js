@@ -11,6 +11,13 @@ const port = 3000
 const checkconnect = require('./config/db.js').checkconnect
 checkconnect()
 
+//middleware
+app.use(
+    express.urlencoded({
+        extended: true,
+    }),
+);
+
 //static file
 app.use(express.static(path.join(__dirname, '/public')));
 
