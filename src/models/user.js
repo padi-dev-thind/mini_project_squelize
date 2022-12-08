@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'User',
   });
   return User;
-};
+};  

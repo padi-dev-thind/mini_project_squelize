@@ -62,6 +62,7 @@ class userManagementController{
             where: {
             id: id
             }
+            , force: false
         })
         .then((user)=>{
             res.redirect('/user-management')
